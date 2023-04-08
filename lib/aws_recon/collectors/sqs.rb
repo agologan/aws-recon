@@ -24,6 +24,7 @@ class SQS < Mapper
         struct.type = 'queue'
         struct.arn = struct.QueueArn
         struct.policy = struct.Policy ? struct.delete_field('Policy').parse_policy : nil
+        struct.tags = @client.list_queue_tags({ queue_url: queue }).tags
 
         resources.push(struct.to_h)
       end

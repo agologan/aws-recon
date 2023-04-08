@@ -23,7 +23,7 @@ class CloudFront < Mapper
         struct.details = @client
                          .get_distribution({ id: dist.id })
                          .distribution.to_h
-
+        struct.tags = @client.list_tags_for_resource({ resource: dist.arn }).tags.items.map(&:to_h)
         resources.push(struct.to_h)
       end
     end

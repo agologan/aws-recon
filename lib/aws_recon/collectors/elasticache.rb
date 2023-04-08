@@ -17,6 +17,7 @@ class ElastiCache < Mapper
         struct = OpenStruct.new(cluster.to_h)
         struct.type = 'cluster'
         struct.arn = cluster.arn
+        struct.tags = @client.list_tags_for_resource({ resource_name: cluster.arn }).tag_list.map(&:to_h)
 
         resources.push(struct.to_h)
       end

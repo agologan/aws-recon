@@ -21,6 +21,7 @@ class Lambda < Mapper
         struct.tracing_config = function.tracing_config.to_h
         struct.layers = function.layers ? function.layers.map(&:to_h) : []
         struct.policy = @client.get_policy({ function_name: function.function_name }).policy.parse_policy
+        struct.tags = @client.list_tags({ resource: function.function_arn }).tags
 
       rescue Aws::Lambda::Errors::ResourceNotFoundException => e
         log_error(e.code)

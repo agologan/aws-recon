@@ -59,6 +59,11 @@ class KMS < Mapper
                          .list_aliases({ key_id: key.key_id })
                          .aliases.map(&:to_h)
 
+        # list_tags
+        struct.tags = @client
+                      .list_resource_tags({ key_id: key.key_id })
+                      .tags.map(&:to_h)
+
         resources.push(struct.to_h)
       end
     end

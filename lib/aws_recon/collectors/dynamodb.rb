@@ -35,6 +35,7 @@ class DynamoDB < Mapper
         struct.type = 'table'
         struct.arn = struct.table_arn
         struct.continuous_backups_description = @client.describe_continuous_backups({ table_name: table_name }).continuous_backups_description.to_h
+        struct.tags = @client.list_tags_of_resource({ resource_arn: struct.arn }).tags.map(&:to_h)
 
         resources.push(struct.to_h)
       end
