@@ -63,7 +63,9 @@ class RDS < Mapper
         struct.arn = snapshot.db_snapshot_arn
         struct.parent_id = snapshot.db_instance_identifier
 
-        resources.push(struct.to_h)
+        if (struct.snapshot_type != 'automated')
+          resources.push(struct.to_h)
+        end
       end
     end
 
@@ -81,7 +83,9 @@ class RDS < Mapper
         struct.arn = snapshot.db_cluster_snapshot_arn
         struct.parent_id = snapshot.db_cluster_identifier
 
-        resources.push(struct.to_h)
+        if (struct.snapshot_type != 'automated')
+          resources.push(struct.to_h)
+        end
       end
     end
 

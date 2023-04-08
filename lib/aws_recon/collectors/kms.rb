@@ -22,6 +22,12 @@ class KMS < Mapper
         struct = OpenStruct.new(@client
                                 .describe_key({ key_id: key.key_id })
                                 .key_metadata.to_h)
+
+        # skip AWS managed keys
+        if struct.key_manager == 'AWS'
+          next
+        end
+
         struct.type = 'key'
         struct.grants = []
 
